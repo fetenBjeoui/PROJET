@@ -1,0 +1,32 @@
+import {
+  boolean,
+  date,
+  integer,
+  pgTable,
+  text,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
+
+export const importCases = pgTable("import_cases", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  caseNumber: varchar("case_number", { length: 40 }).notNull().unique(),
+  supplier: varchar("supplier", { length: 160 }).notNull(),
+  country: varchar("country", { length: 100 }).notNull(),
+  countryCode: varchar("country_code", { length: 3 }).notNull().default("XX"),
+  product: text("product").notNull(),
+  status: varchar("status", { length: 40 }).notNull().default("Commande passée"),
+  transportMode: varchar("transport_mode", { length: 40 }).notNull().default("Maritime"),
+  incoterm: varchar("incoterm", { length: 12 }).notNull().default("FOB"),
+  etd: date("etd", { mode: "string" }),
+  eta: date("eta", { mode: "string" }),
+  arrivedAt: date("arrived_at", { mode: "string" }),
+  invoice: boolean("invoice").notNull().default(false),
+  billOfLading: boolean("bill_of_lading").notNull().default(false),
+  originCertificate: boolean("origin_certificate").notNull().default(false),
+  importPermit: boolean("import_permit").notNull().default(false),
+  insurance: boolean("insurance").notNull().default(false),
+  notes: text("notes").notNull().default(""),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
